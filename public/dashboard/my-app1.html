@@ -671,10 +671,46 @@
                           </div>
                        </div>
                        <div class="mission-top">
+                          <div class="row">
+                              <div class="col-5">
+                                 <span>Service Type</span>
+                              </div>
+                              <div class="col-6">
+                                 <span class="mission-service-type"></span>
+                                 <input type="hidden" name="service-type" value="" class="mission-service-type">
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-5">
+                                 <span>Drone ID</span>
+                              </div>
+                              <div class="col-6">
+                                 <span class="mission-drone-id"></span>
+                                 <input type="hidden" name="drone-id" value="" class="mission-drone-id">
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-5">
+                                 <span>Tenant ID</span>
+                              </div>
+                              <div class="col-6">
+                                 <span class="mission-tenant-id"></span>
+                                 <input type="hidden" name="tenant-id" value="" class="mission-tenant-id">
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-5">
+                                 <span>Mission ID</span>
+                              </div>
+                              <div class="col-6">
+                                 <span class="mission-mission-id"></span>
+                                 <input type="hidden" name="mission-id" value="" class="mission-mission-id">
+                              </div>
+                          </div>
                           <div class="row mission-name">
                              <div class="col-12">
                                 <span contenteditable="false">
-                                New-Drone-Mission
+                                    New-Drone-Mission
                                 </span>
                                 <textarea name="name" type="text" style="display: none"></textarea>
                                 <i class="fas fa-edit mission-name-edit"></i>
@@ -701,24 +737,6 @@
                               </div>
                               <div class="collapse spoiler">
                                 <div class="settings-content">
-                                    <div class="row">
-                                       <div class="col-4">
-                                          <span>Drone ID</span>
-                                       </div>
-                                       <div class="col-8">
-                                          <select class="drone-id-select custom-select">
-                                             <option value="001">Drone-001</option>
-                                             <option value="002">Drone-002</option>
-                                             <option value="003">Drone-003</option>
-                                             <option value="004">Drone-004</option>
-                                             <option value="004">Drone-005</option>
-                                             <option value="004">Drone-006</option>
-                                             <option value="004">Drone-007</option>
-                                             <option value="004">Drone-008</option>
-                                             <option value="004">Drone-009</option>
-                                          </select>
-                                       </div>
-                                    </div>
                                     <div class="row">
                                        <div class="col-2">
                                           <span>Frame</span>
@@ -876,6 +894,10 @@
      const MISSION_HAS_NAME = false;
      const MISSION_ALLOW_EDIT = true;
      const MISSION_MODE = "create"
+     var serviceType = "help"
+     var droneId = "007"
+     var tenantId = "x@gmail.com"
+     var missionId = ""
      const MISSIONS_URL = "/missions/";
      const NEURON_API_URL = "http://35.234.139.29/"
      const MISSION_POINTS_UTLS = {
@@ -884,6 +906,19 @@
      }
      
      var CESIUM_ACCESS_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMWJkNmFiMi1lZmYyLTQ5ZmUtYTMwNC05Njk4ZDZmMGJhMmMiLCJpZCI6MTQ4Nzk3LCJpYXQiOjE2ODc1NzgyMzJ9.11e3lktXLvEOJTJSQmW5V4moqStiyt9xPUcYjXpMZk0";
+  </script>
+  <script>
+         function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            serviceType = params.get('serviceType');
+            droneId = params.get('droneId');
+            tenantId = params.get('tenantId');
+            missionId = params.get('missionId');
+            console.log("Get encoded URL params:", serviceType, droneId, tenantId, missionId);
+            console.log("access global vars after URL decoding", serviceType, droneId, tenantId, missionId);
+            // Use serviceType and droneId as needed
+         }
+         getQueryParams();
   </script>
   <script src="/static/vendor/jquery/jquery.min.js"></script>
   <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>

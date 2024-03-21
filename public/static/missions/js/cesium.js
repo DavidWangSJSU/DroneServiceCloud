@@ -15,8 +15,15 @@
     // Create handler
     var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
 
+    console.log("Create mission manager")
+    console.log("global var access", MISSION_MODE, serviceType, droneId)
     // Init cesium class mission manager
     var cesiumMissionManager = new MissionManager(viewer, missionModeController, aletManager, MISSION_THUMBNAIL)
+    //cesiumMissionManager.service_type = serviceType
+    //cesiumMissionManager.drone_id = droneId
+    //cesiumMissionManager.tenant_id = tenantId
+    //cesiumMissionManager.mission_id = missionId
+
     if (MISSION_MODE === 'update') {
         missionModeController.set('view')
         cesiumMissionManager.domManager.lockMenu(true)

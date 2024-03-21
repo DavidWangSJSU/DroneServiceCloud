@@ -4,6 +4,12 @@ class MissionManager {
         this.generalManager = generalManager
         this.number = number
         this.id = id
+        console.log("mission manager constructor access gllobal: ", serviceType, droneId, tenantId, missionId)
+        this.service_type = serviceType
+        this.drone_id = droneId
+        this.tenant_id = tenantId
+        this.mission_id = missionId
+        console.log("mission manager constructor: ", this.service_type, this.drone_id, this.tenant_id, this.mission_id)
         this.MModeController = MModeController
         this.alertManager = alertManager
         this.thumbnailName = thumbnailName.split('/')[1]
@@ -1024,6 +1030,10 @@ class MissionManager {
             defaults: defaults,
             items: items,
             location: this.domManager.location,  // TODO rename to location and in django as well
+            service_type: this.service_type,
+            drone_id: this.drone_id,
+            tenant_id: this.tenant_id,
+            mission_id: this.mission_id
         }
         return JSON.stringify(mission)
     }
