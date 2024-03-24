@@ -6,7 +6,7 @@ Cloud Based Drone Service
 
 Install for the frontend folder droneServiceCloud:
 
-cd ./droneServiceCloud  --legacy-peer-deps
+cd ./droneServiceCloud  
 
 npm install  --force
 
