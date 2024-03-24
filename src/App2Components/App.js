@@ -31,6 +31,7 @@ import GetAllMaps from "./scenes/getFarmMaps";
 import VideoDashboard from './scenes/upload/VideoDashboard';
 import Upload from './scenes/upload/VideoUpload';
 import MissionPlanner from './scenes/MissionPlanner'
+import { useLocation } from 'react-router-dom';
 
 import './App.css';
 
@@ -610,6 +611,10 @@ export function GetVideoDashboard() {
 export function ViewMissionPlanner() {
   const [theme, colorMode] = useMode();
   const [isSidebar, setIsSidebar] = useState(true);
+  const location = useLocation();
+  const { serviceType, droneId, tenantId, missionId} = location.state || { serviceType: '', droneId: '', tenantId: '', missionId: '' };
+  console.log(serviceType);
+  console.log(droneId);
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -622,7 +627,7 @@ export function ViewMissionPlanner() {
               <Sidebar isSidebar={isSidebar} />
               <main className="content">
                 <Routes>
-                  <Route path="/" element={<MissionPlanner />} />
+                  <Route path="/" element={<MissionPlanner serviceType={serviceType} droneId={droneId} tenantId={tenantId} missionId={missionId} />} />
                 </Routes>
               </main>
             </div>

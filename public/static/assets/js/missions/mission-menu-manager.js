@@ -37,6 +37,10 @@ class DomMissionManager {
         const defaultFrameOption = missionSettings.find('.frame-select')
         const defaultAltInput = missionSettings.find('.default-alt')
         const defaultWPRadiusInput = missionSettings.find('.default-wp-radius')
+        const defaultMissionServiceType = this.missionMenu.find('.mission-service-type')
+        const defaultMissionDroneId = this.missionMenu.find('.mission-drone-id')
+        const defaultMissionTenantId = this.missionMenu.find('.mission-tenant-id')
+        const defaultMissionMissionId = this.missionMenu.find('.mission-mission-id')
 
         // Set default values
         defaultAircraftType.val(this.missionManager.aircraftType)
@@ -44,6 +48,17 @@ class DomMissionManager {
         defaultFrameOption.val(this.missionManager.defaultFrame)
         defaultAltInput.val(this.missionManager.defaultTerrainAlt)
         defaultWPRadiusInput.val(this.missionManager.defaultWPRadius)
+
+        console.log("createMissionMenu:", this.missionManager.service_type, this.missionManager.drone_id)
+        defaultMissionServiceType.val(this.missionManager.service_type)
+        defaultMissionServiceType.text(this.missionManager.service_type)
+        defaultMissionDroneId.val(this.missionManager.drone_id)
+        defaultMissionDroneId.text(this.missionManager.drone_id)
+        defaultMissionTenantId.val(this.missionManager.tenant_id)
+        defaultMissionTenantId.text(this.missionManager.tenant_id)
+        defaultMissionMissionId.val(this.missionManager.mission_id)
+        defaultMissionMissionId.text(this.missionManager.mission_id)
+        
 
         // Setup default values listeners
         missionSettings.find('> div:first-child').on('click', function () {
@@ -178,49 +193,25 @@ class DomMissionManager {
             }
             console.log("hello! i am going to send data to backend")
             
-            /*
-            //const data = { key1: 'value1', key2: 'value2' };
-            var JSONmission = inst.missionManager.getJsonMission()
-            const data = JSONmission
-            console.log(data)
-            console.log("JSON.stringfy(data)")
-            console.log(JSON.stringify(data))
-            fetch('http://localhost:5001/api/createMissionPlanNew', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(data),
-            })
-            
-            .then(response => response.json())
-            .then(data => console.log('Success:', data))
-            .catch((error) => console.error('Error:', error));
-*/
-            
             var JSONmission = inst.missionManager.getJsonMission();
             console.log(JSONmission);
-            const jsonData = JSONmission;
-            // const jsonData = JSON.stringify(JSONmission);
-            // const jsonData = "{\"version\":2,\"defaults\":{\"aircraftType\":\"copter\",\"defaultTerrainAlt\":100,\"defaultHeading\":null,\"defaultSpeed\":5,\"defaultFrame\":3},\"items\":[{\"coordinates\":[37.33611545649612,-121.88442849191375,100],\"pointName\":\"takeoff\",\"frame\":3},{\"coordinates\":[37.33753374692984,-121.88627310887013,100],\"pointName\":\"waypoint\",\"frame\":3},{\"coordinates\":[37.33545497471095,-121.88692192487,100],\"pointName\":\"waypoint\",\"frame\":3},{\"coordinates\":[37.334540148291374,-121.88603642507559,100],\"pointName\":\"waypoint\",\"frame\":3},{\"coordinates\":[37.335987236965536,-121.88450476443029,100],\"pointName\":\"waypoint\",\"frame\":3}],\"location\":\"220 E San Fernando St, San Jose, CA 95112, USA\"}";
-            console.log("JSON.stringfy(JSONmission)")
-            console.log(jsonData);
-            const jsonObject = JSON.parse(jsonData);
-            console.log("jsonObject = JSON.parse(jsonData)")
-            console.log(jsonObject);
-            // Manipulate jsonObject if necessary
-            const jsonStringToSend = JSON.stringify(jsonObject);
-            console.log("JSON.stringfy(jsonObject)")
-            console.log(jsonStringToSend);
-            if (!(jsonStringToSend === jsonData))
-                console.log("caught strang");
+
+            var formAction = inst.missionMenu.attr('action');
+            var formData = new FormData(inst.missionMenu[0]);
+            const thumbnailName = !inst.missionManager.thumbnailName
+                ? "mission.png"
+                : inst.missionManager.thumbnailName;
+            console.log("inst.missionMenu[0]", inst.missionMenu[0]);
+            console.log("formData", formData);
+            console.log("formAction", formAction);
+            console.log("thumbnailName", thumbnailName);
 
             fetch('http://localhost:5001/api/createMissionPlanNew', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: jsonStringToSend,
+                body: JSONmission,
             })
             .then(response => {
                 if (response.headers.get("content-type").includes("application/json")) {
@@ -266,57 +257,6 @@ class DomMissionManager {
                     }
                 })
             })*/
-        })
-
-        this.missionMenu.find('.mission-form-save').on('click', function (event) {
-            const target = $(event.target)
-            if (!inst.missionManager.missionHealthy) {
-                return  // TODO add error
-            }
-            target.html('<div class="spinner-border text-white mr-2" /><div class="d-inline">Loading</div>')
-            target.attr('disabled', true)
-
-            const JSONmission = inst.missionManager.getJsonMission()
-            inst.missionMenu.find('.mission-json').val(JSONmission)
-            inst.missionManager.takeSnapshot(true).then(function (blob) {
-                const formAction = inst.missionMenu.attr('action')
-                const formData = new FormData(inst.missionMenu[0])
-
-                const thumbnailName = !inst.missionManager.thumbnailName
-                    ? "mission.png"
-                    : inst.missionManager.thumbnailName
-
-                const file = new File([blob], thumbnailName)
-                formData.append('thumbnail', file);
-
-                $.ajax({
-                    url: formAction,
-                    data: formData,
-                    type: 'POST',
-                    async: false,
-                    contentType: false,
-                    processData: false,
-                    success: function (response) {
-                        if (inst.missionMenu.attr('action') === '/missions/create/')
-                            inst.missionMenu.attr('action', getMissionUpdateURL(response.missionId))
-                        target.html('Save')
-                        target.attr('disabled', false)
-                        // TODO notify what mi
-                    },
-                    error: function (error) {
-                        target.html('Retry')
-                    }
-                })
-            })
-
-            inst.switchToEdit(false)
-            inst.lockMenu(true)
-            if (inst.missionManager.generalManager) {
-                inst.missionManager.generalManager.editingMission = undefined
-                inst.missionManager.MModeController.set('upload')
-                inst.missionManager.selectedPointId = -1
-                inst.missionManager.selectDomItem(undefined)
-            }
         })
 
         this.missionMenu.find('.mission-form-upload').on('click', function() {
@@ -520,12 +460,17 @@ class DomMissionManager {
         const defaultSpeedInput = missionSettings.find('.default-speed')
         const defaultFrameOption = missionSettings.find('.frame-select')
         const defaultAltInput = missionSettings.find('.default-alt')
+        const defaultServiceType = this.missionMenu.find(".mission-service-type")
+        const defaultDroneId = this.missionMenu.find(".mission-drone-id")
 
         // Set default values
         defaultAircraftType.val(this.missionManager.aircraftType)
         defaultSpeedInput.val(defaults.defaultSpeed)
         defaultFrameOption.val(defaults.defaultFrame)
         defaultAltInput.val(defaults.defaultTerrainAlt)
+        console.log("setDefaultValues: ", this.missionManager.service_type, this.missionManager.drone_id)
+        defaultServiceType.val(this.missionManager.service_type)
+        defaultDroneId.val(this.missionManager.drone_id)
     }
 
     controlItemsOptions(commands, enable) {
