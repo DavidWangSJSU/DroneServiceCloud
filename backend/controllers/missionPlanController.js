@@ -33,10 +33,23 @@ exports.createMissionPlanNew = async (req, res) => {
     }
 
     // Define a file name, potentially based on input data or a timestamp to avoid overwriting
-    const fileName = `mission-${Date.now()}.json`;
+    const timeStamp = Date.now();
+    var timeStampStr = timeStamp.toString();
+
+    console.log("backend receive mission: ", missionData);
+    console.log("try to access directly:", missionData.service_type, missionData.drone_id, missionData.tenant_id, missionData.mission_id, missionData.location);
+
+    let mission_data = missionData
+
+    if (mission_data.mission_id === "")
+        mission_data.mission_id = timeStampStr;
+    else
+        timeStampStr = mission_data.mission_id;
+
+    const fileName = `mission-${timeStampStr}.json`;
 
     // Convert the missionData object to a string
-    const dataString = JSON.stringify(missionData, null, 2); // Beautify the JSON output
+    const dataString = JSON.stringify(mission_data, null, 2); // Beautify the JSON output
 
     // Write the string to a file
     fs.writeFile(`./data/${fileName}`, dataString, 'utf8', (err) => {
@@ -46,6 +59,18 @@ exports.createMissionPlanNew = async (req, res) => {
         }
 
         console.log('Mission data saved to', fileName);
+
+        // extract serviceType, droneId, tenantId. missionId from the mission object
+        const serviceType = mission_data.service_type;
+        const droneId = mission_data.drone_id;
+        const tenantId = mission_data.tenant_id;
+        const missionId = mission_data.mission_id;
+        const location = mission_data.location;
+
+        console.log("Need create mission in cloud DB with parameters: ", fileName, serviceType, droneId, tenantId, missionId, location)
+
+        // TBD: create cloud DB records for the mission_data
+
         return res.status(200).json({ message: 'Mission plan received and stored successfully.' });
     });
 }
