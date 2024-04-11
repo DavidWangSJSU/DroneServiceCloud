@@ -263,20 +263,6 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
-              title="Simulate Mission"
-              to="/dashboard/simMission"
-              icon={<ReceiptOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Track Mission"
-              to="/dashboard/trackMission"
-              icon={<ReceiptOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
             <Typography
               variant="h6"
               color={colors.greenAccent[500]}

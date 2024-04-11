@@ -25,6 +25,8 @@ import Calendar from "./scenes/calendar";
 import DroneStatistics from "./components/DroneStatistics";
 import TrackDrone from "./scenes/trackDrone";
 import CreateMission from "./scenes/createMission";
+import ModifyMission from "./scenes/modifyMission";
+import DeleteMission from "./scenes/deleteMission";
 import AddMapForm from "./scenes/addMap";
 import GetAllMissions from "./scenes/getMissions";
 import GetAllMaps from "./scenes/getFarmMaps";
@@ -468,6 +470,58 @@ export function CreateMissionPage() {
               <main className="content">
                 <Routes>
                   <Route path="/" element={<CreateMission />} />
+                </Routes>
+              </main>
+            </div>
+          </div>
+        </div>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
+  );
+}
+
+export function ModifyMissionPage() {
+  const [theme, colorMode] = useMode();
+  const [isSidebar, setIsSidebar] = useState(true);
+  
+  return (
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <div className="app3">
+          <div className="main-container">
+            <Topbar setIsSidebar={setIsSidebar} />
+            <div className="content-container">
+              <Sidebar isSidebar={isSidebar} />
+              <main className="content">
+                <Routes>
+                  <Route path="/" element={<ModifyMission />} />
+                </Routes>
+              </main>
+            </div>
+          </div>
+        </div>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
+  );
+}
+
+export function DeleteMissionPage() {
+  const [theme, colorMode] = useMode();
+  const [isSidebar, setIsSidebar] = useState(true);
+  
+  return (
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <div className="app3">
+          <div className="main-container">
+            <Topbar setIsSidebar={setIsSidebar} />
+            <div className="content-container">
+              <Sidebar isSidebar={isSidebar} />
+              <main className="content">
+                <Routes>
+                  <Route path="/" element={<DeleteMission />} />
                 </Routes>
               </main>
             </div>
