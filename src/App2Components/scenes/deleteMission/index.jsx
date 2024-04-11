@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from "react";
-import $ from 'jquery';
 import axios from "axios";
 import { Box, Button, TextField, FormControl, InputLabel, Select, MenuItem, FormHelperText, Typography } from "@mui/material";
 import { Formik } from "formik";
