@@ -10,6 +10,23 @@
     var isNeuronFeature = $('#is_neuron').prop('checked')
 
     // Create viewer
+    /*
+    if (missionId != "")
+    {
+        // fetch mission content from backend
+        fetch(`http://localhost:5001/api/getMissionPlanContentById/${missionId}`)
+            .then(response => response.json())
+            .then(data => {
+            
+            console.log("mission " + missionId + " content " + data.content);
+            const missionDataScript = document.getElementById('mission-data');
+            if (missionDataScript) {
+                missionDataScript.textContent = data.content;
+                console.log("found missionDataScript " + missionDataScript.textContent);
+            }
+        })
+    }
+    */
     var viewer = cesiumCreateViewer('cesiumContainer')
 
     // Create handler
@@ -19,10 +36,6 @@
     console.log("global var access", MISSION_MODE, serviceType, droneId)
     // Init cesium class mission manager
     var cesiumMissionManager = new MissionManager(viewer, missionModeController, aletManager, MISSION_THUMBNAIL)
-    //cesiumMissionManager.service_type = serviceType
-    //cesiumMissionManager.drone_id = droneId
-    //cesiumMissionManager.tenant_id = tenantId
-    //cesiumMissionManager.mission_id = missionId
 
     if (MISSION_MODE === 'update') {
         missionModeController.set('view')
@@ -216,33 +229,57 @@
     })
 
     $(document).ready(function () {
-        var missionJSON = $('#mission-data').text()
-
-        if (missionJSON && missionJSON != "\"\"" && missionJSON != "{}") {
-            cesiumMissionManager.loadJsonMission(missionJSON, MISSION_NAME)
-        } else {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    var lon = position.coords.longitude
-                    var lat = position.coords.latitude
-
-                    setTimeout(function () {
-                        viewer.camera.flyTo({
-                            destination: Cesium.Cartesian3.fromDegrees(lon, lat, 15000),
-                            duration: 5.0,
-                        });
-                    }, 1200)
-                })
-            }
-        }
-
-        if (isNeuronFeature) {
-            if (cesiumMissionManager.hasLaunchPoint) {
-                const homeCords = cesiumMissionManager.getGroundPosition(0)
-                cesium_mod_neuron.startIntegration(homeCords.lat, homeCords.lon)
+        var missionJSON;
+        console.log("go to 003 " + missionId);
+    
+        async function fetchMissionData() {
+            if (missionId != "") {
+                console.log("go fetch data");
+                try {
+                    const response = await fetch(`http://localhost:5001/api/getMissionPlanContentById/${missionId}`);
+                    const data = await response.json();
+                    missionJSON = data.content;
+                    console.log("fetched mission " + missionId + " content " + missionJSON);
+                } catch (error) {
+                    console.error("Error fetching mission data:", error);
+                }
             } else {
-                cesium_mod_neuron.startIntegration()
+                console.log("mission id is empty");
             }
         }
-    })
+    
+        // Call the asynchronous function and process mission data afterwards
+        fetchMissionData().then(() => {
+            console.log("get mission data " + missionJSON + " missionId " + missionId);
+            if (missionJSON && missionJSON != "\"\"" && missionJSON != "{}") {
+                console.log("go to 005");
+                cesiumMissionManager.loadJsonMission(missionJSON, MISSION_NAME);
+            } else {
+                console.log("missionJSON: " + missionJSON);
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function (position) {
+                        var lon = position.coords.longitude;
+                        var lat = position.coords.latitude;
+    
+                        console.log("go to 006");
+                        setTimeout(function () {
+                            viewer.camera.flyTo({
+                                destination: Cesium.Cartesian3.fromDegrees(lon, lat, 15000),
+                                duration: 5.0,
+                            });
+                        }, 1200);
+                    });
+                }
+            }
+    
+            if (isNeuronFeature) {
+                if (cesiumMissionManager.hasLaunchPoint) {
+                    const homeCords = cesiumMissionManager.getGroundPosition(0);
+                    cesium_mod_neuron.startIntegration(homeCords.lat, homeCords.lon);
+                } else {
+                    cesium_mod_neuron.startIntegration();
+                }
+            }
+        });
+    });    
 })()

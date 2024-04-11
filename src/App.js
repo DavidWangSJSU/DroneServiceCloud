@@ -11,7 +11,7 @@ import HeroSection from './components/HeroSection';
 import LoginPage from './components/pages/LoginPage';
 import RegisterPage from './components/pages/RegisterPage';
 import {ViewDronePage,CreateDronePage,EditDronePage,ViewDroneStatistics, TrackDronePage} from './App2Components/App';
-import {GetMissionsPage,CreateMissionPage, GetFarmsPage, CreateMapPage, ViewMissionPlanner} from './App2Components/App';
+import {GetMissionsPage,CreateMissionPage, ModifyMissionPage, DeleteMissionPage, GetFarmsPage, CreateMapPage, ViewMissionPlanner} from './App2Components/App';
 import {ViewDashboard,ViewSchedulePage,CreateSchedulePage,EditSchedulePage} from './App2Components/App';
 import {ViewBar,ViewPie,ViewLine,ViewFaq,ViewGeography,ViewContacts,ViewCalendar} from './App2Components/App';
 import {GetVideoDashboard,UploadPage} from './App2Components/App';
@@ -33,6 +33,8 @@ import ViewScheules from "./App2Components/scenes/ViewScheules"
 import CreateDrone from './App2Components/scenes/createDrone';
 import ViewDrone from './App2Components/scenes/viewDrone';
 import CreateMission from './App2Components/scenes/createMission';
+import ModifyMission from './App2Components/scenes/modifyMission';
+import DeleteMission from './App2Components/scenes/deleteMission';
 import AddMapForm from './App2Components/scenes/addMap';
 import GetAllMissions from './App2Components/scenes/getMissions';
 import GetAllMaps from './App2Components/scenes/getFarmMaps';
@@ -70,6 +72,8 @@ function AppContent() {
         <Route path="/dashboard/contacts" element={<ViewContacts />} />
         <Route path="dashboard/calendar" element={<ViewCalendar />} />
         <Route path="/dashboard/createMission" element={<CreateMissionPage />} />
+        <Route path="/dashboard/modifyMission" element={<ModifyMissionPage />} />
+        <Route path="/dashboard/deleteMission" element={<DeleteMissionPage />} />
         <Route path="/dashboard/addMap" element={<CreateMapPage />} />
         <Route path="/dashboard/getMissions" element={<GetMissionsPage />} />
         <Route path="/dashboard/getMaps" element={<GetFarmsPage />} />

@@ -48,6 +48,10 @@ router.post('/createMissionPlan', plannerFunctions.createMissionPlan);
 router.post('/createMissionPlanNew', plannerFunctions.createMissionPlanNew);
 // GET - get all mission plans
 router.get('/getAllMissionPlans/:TenantId', plannerFunctions.getAllMissionPlans);
+// Get content of a mission
+router.get('/getMissionPlanContent/:MissionFileName', plannerFunctions.getMissionPlanContent);
+// Get content of a mission by id
+router.get('/getMissionPlanContentById/:MissionId', plannerFunctions.getMissionPlanContentById);
 // GET - get mission plans by mission-type
 router.get('/getMissionPlansByType/:TenantId/:MissionType', plannerFunctions.getMissionsPlansByType);
 // GET - get mission plan by Location
@@ -58,8 +62,6 @@ router.put('/updateMissionAlertsById', plannerFunctions.updateMissionAlerts);
 router.delete('/deleteAllMissionPlans/:TenantId', plannerFunctions.deleteAllMissions);
 // DELETE - delete mission plan by id
 router.delete('/deleteMissionPlanById/:MissionId/:TenantId', plannerFunctions.deleteMissionPlanById);
-
-
 
 router.get("/countusers",userFunctions.CountUsers);
 router.get("/countmissions",missionFunctions.CountMissions);
