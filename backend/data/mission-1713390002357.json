@@ -1,0 +1,78 @@
+{
+  "version": 2,
+  "defaults": {
+    "aircraftType": "copter",
+    "defaultTerrainAlt": 100,
+    "defaultHeading": null,
+    "defaultSpeed": 5,
+    "defaultFrame": 3
+  },
+  "items": [
+    {
+      "coordinates": [
+        37.33563080858044,
+        -121.88483985017466,
+        100
+      ],
+      "pointName": "takeoff",
+      "frame": 3
+    },
+    {
+      "coordinates": [
+        37.33659237949448,
+        -121.88334253027621,
+        100
+      ],
+      "pointName": "waypoint",
+      "frame": 3,
+      "delay": 0,
+      "speed": 5,
+      "wpRadius": 3,
+      "cameraAction": 0
+    },
+    {
+      "coordinates": [
+        37.33504753370574,
+        -121.88199440934494,
+        100
+      ],
+      "pointName": "waypoint",
+      "frame": 3,
+      "delay": 0,
+      "speed": 5,
+      "wpRadius": 3,
+      "cameraAction": 0
+    },
+    {
+      "coordinates": [
+        37.33408700422758,
+        -121.88336776743137,
+        100
+      ],
+      "pointName": "waypoint",
+      "frame": 3,
+      "delay": 0,
+      "speed": 5,
+      "wpRadius": 3,
+      "cameraAction": 0
+    },
+    {
+      "coordinates": [
+        37.33540002655126,
+        -121.88514091062832,
+        100
+      ],
+      "pointName": "waypoint",
+      "frame": 3,
+      "delay": 0,
+      "speed": 5,
+      "wpRadius": 3,
+      "cameraAction": 0
+    }
+  ],
+  "location": "150 E San Fernando St, San Jose, CA 95112, USA",
+  "service_type": "Campus Perimeter Patrol",
+  "drone_id": "Drone001",
+  "tenant_id": "sample@gmail.com",
+  "mission_id": "1713390002357"
+}
