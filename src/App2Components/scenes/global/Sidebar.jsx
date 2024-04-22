@@ -33,7 +33,8 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
       onClick={() => setSelected(title)}
       icon={icon}
     >
-      <Typography>{title}</Typography>
+      {/* <Typography>{title}</Typography> */}
+      <span style={{ fontSize: '16px'}}>{title}</span>
       <Link to={to} />
     </MenuItem>
   );
@@ -176,7 +177,7 @@ const Sidebar = () => {
           )}
           {/* MENU */}
 
-          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+          <Box paddingLeft={isCollapsed ? undefined : "0%"}>
             <Item
               title="Dashboard"
               to="/dashboard"
@@ -186,11 +187,11 @@ const Sidebar = () => {
             />
           
           <Typography
-              variant="h6"
+              variant="h4"
               color={colors.greenAccent[500]}
               sx={{ m: "15px 0 5px 20px" }}
             >
-              Device Management
+              Database Management
             </Typography>
             <Item
               title="Drone Catalog"
@@ -199,27 +200,28 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
+            {/* <Item
               title="Add New Drone"
               to="/dashboard/createDrone"
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
             <Item
-              title="View Schedular"
+              title="View Schedules"
               to="/dashboard/viewSchedular"
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
+            {/* <Item
               title="Create Schedular"
               to="/dashboard/createSchedular"
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
+
             <Item
               title="Drone Statistics"
               to="/dashboard/dronestatistics"
@@ -235,7 +237,7 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
             <Typography
-              variant="h6"
+              variant="h4"
               color={colors.greenAccent[500]}
               sx={{ m: "15px 0 5px 20px" }}
             >
@@ -251,7 +253,7 @@ const Sidebar = () => {
             />
             <Item
               title="Modify Mission"
-              to="/dashboard/modifyMission"
+              to="/dashboard/ModifyMission"
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -263,8 +265,29 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
+            {/* <Item
+              title="Simulate Mission"
+              to="/dashboard/simMission"
+              icon={<ReceiptOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            /> */}
+            <Item
+              title="Get Missions"
+              to="/dashboard/getMissions"
+              icon={<ReceiptOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            {/* <Item
+              title="Track Mission"
+              to="/dashboard/trackMission"
+              icon={<ReceiptOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            /> */}
             <Typography
-              variant="h6"
+              variant="h4"
               color={colors.greenAccent[500]}
               sx={{ m: "15px 0 5px 20px" }}
             >
@@ -281,6 +304,13 @@ const Sidebar = () => {
               title="Calendar"
               to="/dashboard/calendar"
               icon={<CalendarTodayOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Users"
+              to="/dashboard/viewUsers"
+              icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
@@ -306,7 +336,7 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
             <Typography
-              variant="h6"
+              variant="h4"
               color={colors.greenAccent[500]}
               sx={{ m: "15px 0 5px 20px" }}
             >

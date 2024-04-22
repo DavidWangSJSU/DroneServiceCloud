@@ -60,7 +60,6 @@ class MissionItem {
     static defaultHeading = NaN  // Waypoint
     static defaultAcceptRadius = 0  // Waypoint
     static defaultPassRadius = 0  // Waypoint
-    static defaultCameraAction = 0 // waypoint
     static defaultAbortAlt = 0  // Land
     static defaultLandMode = 0  // Land
     static defaultLoiterType = MAV_CMD_NAV_LOITER_UNLIM  // Loiter
@@ -712,7 +711,6 @@ class WaypointItem extends CesiumMissionNavItem {
         this.holdTime = options.holdTime ?? MissionItem.defaultHoldTime
         this.acceptRadius = options.acceptRadius ?? MissionItem.defaultAcceptRadius
         this.passRadius = options.passRadius ?? MissionItem.defaultPassRadius
-        this.cameraAction = options.cameraAction ?? MissionItem.defaultCameraAction
         this.initCesiumItem()
     }
 
@@ -720,11 +718,11 @@ class WaypointItem extends CesiumMissionNavItem {
         const defaultJsonItem = super.getDjangoJsonItem()
 
         return {
+            ...(!isNaN(this.heading) && {heading: this.heading}),
+            ...(this.holdTime != MissionItem.defaultHoldTime && {holdTime: this.holdTime}),
+            ...(this.acceptRadius != MissionItem.defaultAcceptRadius && {acceptRadius: this.acceptRadius}),
+            ...(this.passRadius != MissionItem.defaultPassRadius && {passRadius: this.passRadius}),
             ...defaultJsonItem,
-            delay: this.delay,
-            speed: this.speed,
-            wpRadius: this.wpRadius,
-            cameraAction: this.cameraAction,
         }
     }
 
@@ -764,7 +762,6 @@ class WaypointItem extends CesiumMissionNavItem {
         const headingInput = domItemContent.find('.heading')
         const acceptRadiusInput = domItemContent.find('.accept-radius')
         const passRadiusInput = domItemContent.find('.pass-radius')
-        const cameraInput = domItemContent.find('.camera-action')
 
         delayInput.val(this.delay)
         delayInput.on('input', function(event) {
@@ -917,14 +914,6 @@ class WaypointItem extends CesiumMissionNavItem {
             const validated = validatePositiveNumber(target, value)
             if (inst.fieldsHealthHandler(validated, targetClass))
                 inst.passRadius = Number(value)
-        })
-
-        cameraInput.val(this.cameraAction)
-        cameraInput.on('input', function(event) {
-            const target = $(event.target)
-            const value = target.val()
-
-            inst.cameraAction = Number(value)
         })
 
         this.menuItemContent = domItemContent

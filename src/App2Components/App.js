@@ -1,693 +1,100 @@
-import { CssBaseline, ThemeProvider } from "@mui/material";
-import { ColorModeContext, useMode } from "./theme";
-import { Routes, Route } from "react-router-dom";
-
-import Topbar from "./scenes/global/Topbar";
-import Sidebar from "./scenes/global/Sidebar";
-import Dashboard from "./scenes/dashboard";
-import { useState } from "react";
-import Team from "./scenes/team";
-import Invoices from "./scenes/invoices";
-import Contacts from "./scenes/contacts";
-import Bar from "./scenes/bar";
-import Form from "./scenes/form";
-import Line from "./scenes/line";
-import Pie from "./scenes/pie";
-import FAQ from "./scenes/faq";
-import Geography from "./scenes/geography";
-import ViewDrone from "./scenes/viewDrone";
-import CreateDrone from "./scenes/createDrone";
-import EditDrone from "./scenes/EditDrone";
-import EditSchedule from "./scenes/EditSchedule";
-import ViewSchedule from "./scenes/ViewScheules";
-import CreateSchedule from "./scenes/CreateSchedule";
-import Calendar from "./scenes/calendar";
-import DroneStatistics from "./components/DroneStatistics";
-import TrackDrone from "./scenes/trackDrone";
-import CreateMission from "./scenes/createMission";
-import ModifyMission from "./scenes/modifyMission";
-import DeleteMission from "./scenes/deleteMission";
-import AddMapForm from "./scenes/addMap";
-import GetAllMissions from "./scenes/getMissions";
-import GetAllMaps from "./scenes/getFarmMaps";
-import VideoDashboard from './scenes/upload/VideoDashboard';
-import Upload from './scenes/upload/VideoUpload';
-import MissionPlanner from './scenes/MissionPlanner'
-import { useLocation } from 'react-router-dom';
-
+import React, { useState } from 'react';
 import './App.css';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { ColorModeContext, useMode } from "./App2Components/theme";
+
+import DropdownComponent from './components/pages/DropDown';
+import Home from './components/pages/Home';
+import Navbar from './components/Navbar';
+import HeroSection from './components/HeroSection';
+import LoginPage from './components/pages/LoginPage';
+import RegisterPage from './components/pages/RegisterPage';
+import {ViewDronePage,CreateDronePage,EditDronePage,ViewDroneStatistics, TrackDronePage} from './App2Components/App';
+import {GetMissionsPage,CreateMissionPage, ModifyMissionPage, DeleteMissionPage, GetFarmsPage, CreateMapPage, ViewMissionPlanner} from './App2Components/App';
+import {ViewDashboard,ViewSchedulePage,CreateSchedulePage,EditSchedulePage, ViewUsersPage} from './App2Components/App';
+import {ViewBar,ViewPie,ViewLine,ViewFaq,ViewGeography,ViewContacts,ViewCalendar} from './App2Components/App';
+import {GetVideoDashboard,UploadPage} from './App2Components/App';
+
+import Topbar from "./App2Components/scenes/global/Topbar";
+import Sidebar from "./App2Components/scenes/global/Sidebar";
+import Dashboard from "./App2Components/scenes/dashboard";
+import Team from "./App2Components/scenes/team";
+import Invoices from "./App2Components/scenes/invoices";
+import Contacts from "./App2Components/scenes/contacts";
+import Bar from "./App2Components/scenes/bar";
+import Form from "./App2Components/scenes/form";
+import Line from "./App2Components/scenes/line";
+import Pie from "./App2Components/scenes/pie";
+import FAQ from "./App2Components/scenes/faq";
+import Geography from "./App2Components/scenes/geography";
+import CreateSchedule from "./App2Components/scenes/CreateSchedule"
+import ViewScheules from "./App2Components/scenes/ViewScheules"
+import CreateDrone from './App2Components/scenes/createDrone';
+import ViewDrone from './App2Components/scenes/viewDrone';
+import CreateMission from './App2Components/scenes/createMission';
+// import ModifyMission from './App2Components/scenes/modifyMission';
+// import DeleteMission from './App2Components/scenes/deleteMission';
+import AddMapForm from './App2Components/scenes/addMap';
+import GetAllMissions from './App2Components/scenes/getMissions';
+import GetAllMaps from './App2Components/scenes/getFarmMaps';
+import GetAllUsers from './App2Components/scenes/viewUsers';
 
 
-export function ViewDashboard() {
-  const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
-
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app2">
-          <div className="main-container">
-            <Topbar setIsSidebar={setIsSidebar} />
-            <div className="content-container">
-              <Sidebar isSidebar={isSidebar} />
-              <main className="content">
-                <Routes>
-                  <Route path="/" element={<Dashboard />} />
-                </Routes>
-              </main>
-            </div>
-          </div>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
-}
-
-export function ViewDronePage() {
-  const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
-
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app3">
-          <div className="main-container">
-            <Topbar setIsSidebar={setIsSidebar} />
-            <div className="content-container">
-              <Sidebar isSidebar={isSidebar} />
-              <main className="content">
-                <Routes>
-                  <Route path="/" element={<ViewDrone />} />
-                </Routes>
-              </main>
-            </div>
-          </div>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
-}
-
-export function EditDronePage() {
-  const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
-
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app3">
-          <div className="main-container">
-            <Topbar setIsSidebar={setIsSidebar} />
-            <div className="content-container">
-              <Sidebar isSidebar={isSidebar} />
-              <main className="content">
-                <Routes>
-                  <Route path="/" element={<EditDrone />} />
-                </Routes>
-              </main>
-            </div>
-          </div>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
-}
-
-
-export function CreateDronePage() {
-  const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
-  
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app3">
-          <div className="main-container">
-            <Topbar setIsSidebar={setIsSidebar} />
-            <div className="content-container">
-              <Sidebar isSidebar={isSidebar} />
-              <main className="content">
-                <Routes>
-                  <Route path="/" element={<CreateDrone />} />
-                </Routes>
-              </main>
-            </div>
-          </div>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
-}
-
-export function ViewDroneStatistics() {
-  const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
-  
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app3">
-          <div className="main-container">
-            <Topbar setIsSidebar={setIsSidebar} />
-            <div className="content-container">
-              <Sidebar isSidebar={isSidebar} />
-              <main className="content">
-                <Routes>
-                  <Route path="/" element={<DroneStatistics />} />
-                </Routes>
-              </main>
-            </div>
-          </div>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
-}
-
-export function TrackDronePage() {
-  const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
-  
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app3">
-          <div className="main-container">
-            <Topbar setIsSidebar={setIsSidebar} />
-            <div className="content-container">
-              <Sidebar isSidebar={isSidebar} />
-              <main className="content">
-                <Routes>
-                  <Route path="/" element={<TrackDrone />} />
-                </Routes>
-              </main>
-            </div>
-          </div>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
-}
-
-export function ViewSchedulePage() {
-  const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
-
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app3">
-          <div className="main-container">
-            <Topbar setIsSidebar={setIsSidebar} />
-            <div className="content-container">
-              <Sidebar isSidebar={isSidebar} />
-              <main className="content">
-                <Routes>
-                  <Route path="/" element={<ViewSchedule />} />
-                </Routes>
-              </main>
-            </div>
-          </div>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
-}
-
-export function CreateSchedulePage() {
-  const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
-  
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app3">
-          <div className="main-container">
-            <Topbar setIsSidebar={setIsSidebar} />
-            <div className="content-container">
-              <Sidebar isSidebar={isSidebar} />
-              <main className="content">
-                <Routes>
-                  <Route path="/" element={<CreateSchedule />} />
-                </Routes>
-              </main>
-            </div>
-          </div>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
-}
-
-export function EditSchedulePage() {
-  const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
-
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app3">
-          <div className="main-container">
-            <Topbar setIsSidebar={setIsSidebar} />
-            <div className="content-container">
-              <Sidebar isSidebar={isSidebar} />
-              <main className="content">
-                <Routes>
-                  <Route path="/" element={<EditSchedule />} />
-                </Routes>
-              </main>
-            </div>
-          </div>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
-}
-
-export function ViewBar() {
-  const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
-  
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app3">
-          <div className="main-container">
-            <Topbar setIsSidebar={setIsSidebar} />
-            <div className="content-container">
-              <Sidebar isSidebar={isSidebar} />
-              <main className="content">
-                <Routes>
-                  <Route path="/" element={<Bar />} />
-                </Routes>
-              </main>
-            </div>
-          </div>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
-}
-
-export function ViewPie() {
-  const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
-  
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app3">
-          <div className="main-container">
-            <Topbar setIsSidebar={setIsSidebar} />
-            <div className="content-container">
-              <Sidebar isSidebar={isSidebar} />
-              <main className="content">
-                <Routes>
-                  <Route path="/" element={<Pie />} />
-                </Routes>
-              </main>
-            </div>
-          </div>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
-}
-
-export function ViewLine() {
-  const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
-  
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app3">
-          <div className="main-container">
-            <Topbar setIsSidebar={setIsSidebar} />
-            <div className="content-container">
-              <Sidebar isSidebar={isSidebar} />
-              <main className="content">
-                <Routes>
-                  <Route path="/" element={<Line />} />
-                </Routes>
-              </main>
-            </div>
-          </div>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
-}
-
-export function ViewFaq() {
-  const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
-  
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app3">
-          <div className="main-container">
-            <Topbar setIsSidebar={setIsSidebar} />
-            <div className="content-container">
-              <Sidebar isSidebar={isSidebar} />
-              <main className="content">
-                <Routes>
-                  <Route path="/" element={<FAQ />} />
-                </Routes>
-              </main>
-            </div>
-          </div>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
-}
-
-export function ViewGeography() {
-  const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
-  
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app3">
-          <div className="main-container">
-            <Topbar setIsSidebar={setIsSidebar} />
-            <div className="content-container">
-              <Sidebar isSidebar={isSidebar} />
-              <main className="content">
-                <Routes>
-                  <Route path="/" element={<Geography />} />
-                </Routes>
-              </main>
-            </div>
-          </div>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
-}
-
-export function ViewContacts() {
-  const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
-  
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app3">
-          <div className="main-container">
-            <Topbar setIsSidebar={setIsSidebar} />
-            <div className="content-container">
-              <Sidebar isSidebar={isSidebar} />
-              <main className="content">
-                <Routes>
-                  <Route path="/" element={<Contacts />} />
-                </Routes>
-              </main>
-            </div>
-          </div>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
-}
-
-export function ViewCalendar() {
-  const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
-  
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app3">
-          <div className="main-container">
-            <Topbar setIsSidebar={setIsSidebar} />
-            <div className="content-container">
-              <Sidebar isSidebar={isSidebar} />
-              <main className="content">
-                <Routes>
-                  <Route path="/" element={<Calendar />} />
-                </Routes>
-              </main>
-            </div>
-          </div>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
-}
-export function CreateMissionPage() {
-  const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
-  
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app3">
-          <div className="main-container">
-            <Topbar setIsSidebar={setIsSidebar} />
-            <div className="content-container">
-              <Sidebar isSidebar={isSidebar} />
-              <main className="content">
-                <Routes>
-                  <Route path="/" element={<CreateMission />} />
-                </Routes>
-              </main>
-            </div>
-          </div>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
-}
-
-export function ModifyMissionPage() {
-  const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
-  
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app3">
-          <div className="main-container">
-            <Topbar setIsSidebar={setIsSidebar} />
-            <div className="content-container">
-              <Sidebar isSidebar={isSidebar} />
-              <main className="content">
-                <Routes>
-                  <Route path="/" element={<ModifyMission />} />
-                </Routes>
-              </main>
-            </div>
-          </div>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
-}
-
-export function DeleteMissionPage() {
-  const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
-  
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app3">
-          <div className="main-container">
-            <Topbar setIsSidebar={setIsSidebar} />
-            <div className="content-container">
-              <Sidebar isSidebar={isSidebar} />
-              <main className="content">
-                <Routes>
-                  <Route path="/" element={<DeleteMission />} />
-                </Routes>
-              </main>
-            </div>
-          </div>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
-}
-
-export function CreateMapPage() {
-  const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
-  
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app3">
-          <div className="main-container">
-            <Topbar setIsSidebar={setIsSidebar} />
-            <div className="content-container">
-              <Sidebar isSidebar={isSidebar} />
-              <main className="content">
-                <Routes>
-                  <Route path="/" element={<AddMapForm />} />
-                </Routes>
-              </main>
-            </div>
-          </div>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
-}
-
-export function GetMissionsPage() {
-  const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
-  
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app3">
-          <div className="main-container">
-            <Topbar setIsSidebar={setIsSidebar} />
-            <div className="content-container">
-              <Sidebar isSidebar={isSidebar} />
-              <main className="content">
-                <Routes>
-                  <Route path="/" element={<GetAllMissions />} />
-                </Routes>
-              </main>
-            </div>
-          </div>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
-}
-
-export function GetFarmsPage() {
-  const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
-  
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app3">
-          <div className="main-container">
-            <Topbar setIsSidebar={setIsSidebar} />
-            <div className="content-container">
-              <Sidebar isSidebar={isSidebar} />
-              <main className="content">
-                <Routes>
-                  <Route path="/" element={<GetAllMaps />} />
-                </Routes>
-              </main>
-            </div>
-          </div>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
-}
-
-export function UploadPage() {
-  const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
-  
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app3">
-          <div className="main-container">
-            <Topbar setIsSidebar={setIsSidebar} />
-            <div className="content-container">
-              <Sidebar isSidebar={isSidebar} />
-              <main className="content">
-                <Routes>
-                  <Route path="/" element={<Upload/>} />
-                </Routes>
-              </main>
-            </div>
-          </div>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
-}
-
-export function GetVideoDashboard() {
-  const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
-  
-  return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app3">
-          <div className="main-container">
-            <Topbar setIsSidebar={setIsSidebar} />
-            <div className="content-container">
-              <Sidebar isSidebar={isSidebar} />
-              <main className="content">
-                <Routes>
-                  <Route path="/" element={<VideoDashboard />} />
-                </Routes>
-              </main>
-            </div>
-          </div>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  );
-}
-
-export function ViewMissionPlanner() {
-  const [theme, colorMode] = useMode();
-  const [isSidebar, setIsSidebar] = useState(true);
+function AppContent() {
   const location = useLocation();
-  const { serviceType, droneId, tenantId, missionId} = location.state || { serviceType: '', droneId: '', tenantId: '', missionId: '' };
-  console.log(serviceType);
-  console.log(droneId);
+  const shouldRenderNavbar = !location.pathname.includes("/dashboard");
+  const [theme, colorMode] = useMode();
+  const [isSidebar, setIsSidebar] = useState(true);
+
+
 
   return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div className="app3">
-          <div className="main-container">
-            <Topbar setIsSidebar={setIsSidebar} />
-            <div className="content-container">
-              <Sidebar isSidebar={isSidebar} />
-              <main className="content">
-                <Routes>
-                  <Route path="/" element={<MissionPlanner serviceType={serviceType} droneId={droneId} tenantId={tenantId} missionId={missionId} />} />
-                </Routes>
-              </main>
-            </div>
-          </div>
-        </div>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
+    <div className="App">
+      {shouldRenderNavbar && <Navbar />}
+      <Routes>
+        {/* <Route path="/dropdown" element={<DropdownComponent />} /> */}
+        <Route path="/" element={<HeroSection />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/dashboard/*" element={<ViewDashboard />} />
+        <Route path="/dashboard/viewSchedular" element={<ViewSchedulePage />} />
+        <Route path="/dashboard/CreateSchedule" element={<CreateSchedulePage />} />
+        <Route path="/dashboard/editSchedule" element={<EditSchedulePage />} />
+        <Route path="/dashboard/viewDrone" element={<ViewDronePage />} />
+        <Route path="/dashboard/createDrone" element={<CreateDronePage />} />
+        <Route path="/dashboard/editDrone" element={<EditDronePage />} />
+        <Route path="/dashboard/dronestatistics" element={<ViewDroneStatistics />} />
+        <Route path="/dashboard/trackdrone" element={<TrackDronePage />} />
+        <Route path="/dashboard/bar" element={<ViewBar />} />
+        <Route path="/dashboard/pie" element={<ViewPie />} />
+        <Route path="/dashboard/line" element={<ViewLine />} />
+        <Route path="/dashboard/faq" element={<ViewFaq />} />
+        <Route path="/dashboard/geography" element={<ViewGeography />} />
+        <Route path="/dashboard/contacts" element={<ViewContacts />} />
+        <Route path="dashboard/calendar/*" element={<ViewCalendar />} />
+        <Route path="/dashboard/createMission" element={<CreateMissionPage />} />
+        <Route path="/dashboard/modifyMission" element={<ModifyMissionPage />} />
+        <Route path="/dashboard/deleteMission" element={<DeleteMissionPage />} />
+        <Route path="/dashboard/addMap" element={<CreateMapPage />} />
+        <Route path="/dashboard/getMissions" element={<GetMissionsPage />} />
+        <Route path="/dashboard/getMaps" element={<GetFarmsPage />} />
+        <Route path="/dashboard/uploadVideo" element={<UploadPage/>} />
+        <Route path="/dashboard/videos" element={<GetVideoDashboard/>} />
+        <Route path="/dashboard/missionPlanner" element={<ViewMissionPlanner/>} />
+        <Route path="/dashboard/viewUsers" element={<ViewUsersPage/>}/>
+      </Routes>
+    </div>
   );
 }
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
+  );
+}
+
+export default App;
