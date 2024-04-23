@@ -6,7 +6,7 @@ const userModel=mongoose.Schema(
         lastname:{type:String,required:true},
         email:{type:String, required:true, unique:true},
         password:{type:String, minlength:5, required:true},
-        role:{type:String,required:true},
+        role:{type:String,required:true, enum: ['admin', 'student', 'security']},
         contact:{type:String,required:false},
         location:{type:String,required:true},
         gender:{type:String,required:true},

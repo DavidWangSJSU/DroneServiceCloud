@@ -22,15 +22,20 @@ const planSchema = new mongoose.Schema({
     Location: {
         type: String,
     },
+    Drones: { type: [Number] },
     FlightPlanCoordinates: {type:[CoordsSchema], default:undefined},
     FlightHeight: {
         type: Number,
-        required: true
+        // required: true
     },
     Alerts: {
         type: Array,
-    }
-});
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
+}, { timestamps: true } );
 
 
-module.exports = mongoose.model('planData', planSchema);
+module.exports = mongoose.model('plan Data', planSchema);

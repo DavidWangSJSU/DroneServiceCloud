@@ -1,6 +1,6 @@
 import React from'react';
 
-function MissionPlanner({ serviceType, droneId, tenantId, missionId }) {
+function MissionPlanner({ serviceType, droneId, tenantId, missionId, waypointItems }) {
   console.log(serviceType);
   console.log(droneId);
   console.log(tenantId);
@@ -10,13 +10,15 @@ function MissionPlanner({ serviceType, droneId, tenantId, missionId }) {
   const droneIdEncoded = encodeURIComponent(droneId);
   const tenantIdEncoded = encodeURIComponent(tenantId);
   const missionIdEncoded = encodeURIComponent(missionId);
+  const waypointItemsEncoded = encodeURIComponent(waypointItems);
 
   // Modify the src URL to include the serviceType and droneId as query parameters.
-  const iframeSrc = `my-app1.html?serviceType=${serviceTypeEncoded}&droneId=${droneIdEncoded}&tenantId=${tenantIdEncoded}&missionId=${missionIdEncoded}`;
+  const iframeSrc = `my-app1.html?serviceType=${serviceTypeEncoded}&droneId=${droneIdEncoded}&tenantId=${tenantIdEncoded}&missionId=${missionIdEncoded}&waypointItems=${waypointItemsEncoded}`;
   console.log(serviceTypeEncoded);
   console.log(droneIdEncoded);
   console.log(tenantIdEncoded);
   console.log(missionIdEncoded);
+  console.log(waypointItemsEncoded);
   return (
     <div>
       <iframe 

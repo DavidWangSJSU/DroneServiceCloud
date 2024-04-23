@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Typography, useTheme, TextField, InputAdornment } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 // can use API Here instead of Mockdata
@@ -14,15 +14,40 @@ import { Button, IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { format } from 'date-fns';
+import SearchIcon from "@mui/icons-material/Search";
 
 
 
 const ViewSchedules = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const columnHeadersStyles = {
+    backgroundColor: colors.blueAccent[300],
+    borderBottom: "none",
+    "& .MuiDataGrid-columnHeader": {
+      fontSize: "1.2rem",
+      fontWeight: "bold",
+    },
+  };
+
+  const cellStyles = {
+    borderBottom: "none",
+    fontSize: "1rem",
+  };
+
   const navigate = useNavigate();
   const [docs, setDocs] = useState([]);
-
+  const [currDocs, setCurrDocs] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterModel, setFilterModel] = useState({
+    items: [
+      {
+        columnField: "schedule_id",
+        operatorValue: "contains",
+        value: "",
+      },
+    ],
+  });
   const sendRequest = async () => {
     const res = await axios.get(
       "http://localhost:5001/api/viewschedule",
@@ -40,6 +65,7 @@ const ViewSchedules = () => {
       );
       console.log("Drone deleted successfully:", response.data);
       setDocs(docs.filter((doc) => doc.schedule_id !== id));
+      setCurrDocs(docs.filter((doc) => doc.schedule_id !== id));
     } catch (error) {
       console.error("Error deleting schedule:", error);
     }
@@ -55,6 +81,28 @@ const ViewSchedules = () => {
     console.log("Delete clicked for schedule_id:", id);
     await deleteSchedule(id);
   };
+
+  const handleSearch = (searchValue) => {
+    setSearchTerm(searchValue);
+    if(!searchValue) setCurrDocs(docs);
+    else {
+      const searchedDocs = docs.filter(doc => doc.schedule_id?.toLowerCase() === searchValue?.toLowerCase());
+      setCurrDocs(searchedDocs);
+    }
+    setFilterModel({
+      items: [
+        {
+          columnField: "schedule_id",
+          operatorValue: "contains",
+          value: searchValue,
+        },
+      ],
+    });
+  };
+
+  const navigateToCreateSchedule = () => {
+    navigate('/dashboard/CreateSchedule');
+  };
   
   useEffect(() => {
     async function fetchData() {
@@ -68,6 +116,7 @@ const ViewSchedules = () => {
         };
       });
       setDocs(formattedData);
+      setCurrDocs(formattedData);
       console.log('Formatted data:', formattedData);
     }
     fetchData();
@@ -77,7 +126,23 @@ const ViewSchedules = () => {
   
 
   const columns = [
-    { field: "schedule_id", headerName: "ScheduleId" },
+    { field: "schedule_id", 
+    headerName: "ScheduleId", 
+    flex:0.7, 
+    filterOperators: [
+      {
+        label: "Equals",
+        value: "equals",
+        getApplyFilterFn: (filterItem) => (params) => params.value === filterItem.value,
+      },
+      {
+        label: "Contains",
+        value: "contains",
+        getApplyFilterFn: (filterItem) => (params) =>
+          String(params.value).toLowerCase().includes(String(filterItem.value).toLowerCase()),
+        // method: (scheduleId, value) => scheduleId.includes(value),
+      },
+    ],},
     {
       field: "start_time",
       headerName: "Start Time",
@@ -89,6 +154,21 @@ const ViewSchedules = () => {
       headerName: "End Time",
       flex: 1,
       cellClassName: "name-column--cell",
+    },
+    {
+      field: "duration",
+      headerName: "Duration",
+      flex: 1,
+      valueGetter: (params) => {
+        const start = new Date(params.row.start_time);
+        const end = new Date(params.row.end_time);
+        const duration = end.getTime() - start.getTime();
+        const durationInSeconds = Math.floor(duration / 1000);
+        const hours = Math.floor(durationInSeconds / 3600);
+        const minutes = Math.floor((durationInSeconds % 3600) / 60);
+        const seconds = durationInSeconds % 60;
+        return `${hours}h ${minutes}m ${seconds}s`;
+      },
     },
     {
       field: "mission_id",
@@ -128,7 +208,32 @@ const ViewSchedules = () => {
   return (
     <Box m="20px">
       <Header title="View Schedules" />
-      {docs.length > 0 ?
+      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
+        <TextField
+          value={searchTerm}
+          onChange={(e) => handleSearch(e.target.value)}
+          placeholder="Search by Schedule ID..."
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Box>
+      <Box sx={{ position: 'absolute', top: 100, right: 30 }}>
+        <Button variant="contained" color="primary" onClick={navigateToCreateSchedule} sx={{
+        borderRadius: '8px', // Add border radius
+        backgroundColor: '#4CAF50', // Change color to your desired color
+      '&:hover': {
+        backgroundColor: '#388E3C', // Change hover color
+      },
+    }}>
+          <Typography variant="button" fontWeight="bold">+ Add Schedule</Typography>
+        </Button>
+      </Box>
+      {currDocs.length > 0 ?
         <Box
           m="40px 0 0 0"
           height="75vh"
@@ -136,19 +241,14 @@ const ViewSchedules = () => {
             "& .MuiDataGrid-root": {
               border: "none",
             },
-            "& .MuiDataGrid-cell": {
-              borderBottom: "none",
-            },
-            "& .name-column--cell": {
-              color: colors.greenAccent[700],
-            },
-            "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: colors.blueAccent[300],
-              borderBottom: "none",
-            },
-            "& .MuiDataGrid-virtualScroller": {
-              backgroundColor: colors.primary[600],
-            },
+            "& .MuiDataGrid-cell": cellStyles,
+          "& .name-column--cell": {
+            color: colors.greenAccent[700],
+          },
+          "& .MuiDataGrid-columnHeaders": columnHeadersStyles,
+          "& .MuiDataGrid-virtualScroller": {
+            backgroundColor: colors.primary[600],
+          },
             "& .MuiDataGrid-footerContainer": {
               borderTop: "none",
               backgroundColor: colors.blueAccent[300],
@@ -158,7 +258,16 @@ const ViewSchedules = () => {
             },
           }}
         >
-          <DataGrid checkboxSelection rows={docs} columns={columns} getRowId={(row) => row.schedule_id} />
+          <DataGrid 
+          checkboxSelection 
+          rows={currDocs} 
+          columns={columns} 
+          getRowId={(row) => row.schedule_id} 
+          filterModel={filterModel}
+            onFilterModelChange={(newModel) => {
+              setFilterModel(newModel);
+            }}
+          />
         </Box>
         :
         <Typography>Loading...</Typography>

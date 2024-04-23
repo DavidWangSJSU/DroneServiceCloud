@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./App2Components/theme";
 
+import DropdownComponent from './components/pages/DropDown';
 import Home from './components/pages/Home';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
@@ -12,7 +13,7 @@ import LoginPage from './components/pages/LoginPage';
 import RegisterPage from './components/pages/RegisterPage';
 import {ViewDronePage,CreateDronePage,EditDronePage,ViewDroneStatistics, TrackDronePage} from './App2Components/App';
 import {GetMissionsPage,CreateMissionPage, ModifyMissionPage, DeleteMissionPage, GetFarmsPage, CreateMapPage, ViewMissionPlanner} from './App2Components/App';
-import {ViewDashboard,ViewSchedulePage,CreateSchedulePage,EditSchedulePage} from './App2Components/App';
+import {ViewDashboard,ViewSchedulePage,CreateSchedulePage,EditSchedulePage, ViewUsersPage} from './App2Components/App';
 import {ViewBar,ViewPie,ViewLine,ViewFaq,ViewGeography,ViewContacts,ViewCalendar} from './App2Components/App';
 import {GetVideoDashboard,UploadPage} from './App2Components/App';
 
@@ -33,11 +34,12 @@ import ViewScheules from "./App2Components/scenes/ViewScheules"
 import CreateDrone from './App2Components/scenes/createDrone';
 import ViewDrone from './App2Components/scenes/viewDrone';
 import CreateMission from './App2Components/scenes/createMission';
-import ModifyMission from './App2Components/scenes/modifyMission';
-import DeleteMission from './App2Components/scenes/deleteMission';
+// import ModifyMission from './App2Components/scenes/modifyMission';
+// import DeleteMission from './App2Components/scenes/deleteMission';
 import AddMapForm from './App2Components/scenes/addMap';
 import GetAllMissions from './App2Components/scenes/getMissions';
 import GetAllMaps from './App2Components/scenes/getFarmMaps';
+import GetAllUsers from './App2Components/scenes/viewUsers';
 
 
 function AppContent() {
@@ -52,12 +54,13 @@ function AppContent() {
     <div className="App">
       {shouldRenderNavbar && <Navbar />}
       <Routes>
+        {/* <Route path="/dropdown" element={<DropdownComponent />} /> */}
         <Route path="/" element={<HeroSection />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/dashboard/*" element={<ViewDashboard />} />
         <Route path="/dashboard/viewSchedular" element={<ViewSchedulePage />} />
-        <Route path="/dashboard/createSchedular" element={<CreateSchedulePage />} />
+        <Route path="/dashboard/CreateSchedule" element={<CreateSchedulePage />} />
         <Route path="/dashboard/editSchedule" element={<EditSchedulePage />} />
         <Route path="/dashboard/viewDrone" element={<ViewDronePage />} />
         <Route path="/dashboard/createDrone" element={<CreateDronePage />} />
@@ -70,7 +73,7 @@ function AppContent() {
         <Route path="/dashboard/faq" element={<ViewFaq />} />
         <Route path="/dashboard/geography" element={<ViewGeography />} />
         <Route path="/dashboard/contacts" element={<ViewContacts />} />
-        <Route path="dashboard/calendar" element={<ViewCalendar />} />
+        <Route path="dashboard/calendar/*" element={<ViewCalendar />} />
         <Route path="/dashboard/createMission" element={<CreateMissionPage />} />
         <Route path="/dashboard/modifyMission" element={<ModifyMissionPage />} />
         <Route path="/dashboard/deleteMission" element={<DeleteMissionPage />} />
@@ -80,6 +83,7 @@ function AppContent() {
         <Route path="/dashboard/uploadVideo" element={<UploadPage/>} />
         <Route path="/dashboard/videos" element={<GetVideoDashboard/>} />
         <Route path="/dashboard/missionPlanner" element={<ViewMissionPlanner/>} />
+        <Route path="/dashboard/viewUsers" element={<ViewUsersPage/>}/>
       </Routes>
     </div>
   );

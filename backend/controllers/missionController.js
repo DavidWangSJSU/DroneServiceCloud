@@ -3,6 +3,11 @@ const planModel = require('../models/planModel');
 const jwt=require('jsonwebtoken');
   
 
+const getAllMissions = async(req, res) => {
+  const missions = await Mission.find({});
+  return res.status(200).json(missions);
+};
+
 const ViewMission=async(req,res,next)=>{
     try{
       Mission.find({}) // pass the query object with the search criteria
@@ -56,18 +61,34 @@ const ViewMission=async(req,res,next)=>{
       return res.status(200).json(missionscount);
   }
 
-  const getMissions=async(req,res,next)=>{
-    let missions;
-    try{
-        missions=await Mission.find({});
-    }catch(err){
-        return new Error(err);
-    }
-    if(!missions){
-        return res.status(400).json({message:"Missions not found"})
-    }
-    return res.status(200).json({missions});
+//   const getMissions=async(req,res,next)=>{
+//     let missions;
+//     try{
+//         missions=await Mission.find({});
+//     }catch(err){
+//         return new Error(err);
+//     }
+//     if(!missions){
+//         return res.status(400).json({message:"Missions not found"})
+//     }
+//     return res.status(200).json({missions});
+// }
+
+const getMissions = async (req, res) => {
+  let missions;
+  try {
+    missions = await Mission.find({}); 
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({message: "Error retrieving missions"});
+  }
+
+  if(!missions) {
+    return res.status(404).json({message: "No missions found"}); 
+  }
+
+  return res.status(200).json({missions});
 }
 
   
-module.exports={ViewMission,ViewMissionIdList,CountMissions,getMissions};
+module.exports={getAllMissions, ViewMission,ViewMissionIdList,CountMissions,getMissions};

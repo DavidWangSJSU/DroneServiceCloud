@@ -2,7 +2,13 @@ const Schedule=require('../models/scheduleModel');
 const bcrypt=require('bcryptjs');
 const jwt=require('jsonwebtoken');
 const { Schedule1 } = require('@mui/icons-material');
+const User=require('../models/userModel');
   
+const getAllSchedules = async(req, res) => {
+  const schedules = await Schedule.find({});
+  return res.status(200).json(schedules);
+};
+
 
 const CreateSchedule=async(req,res,next)=>{
     const {schedule_id,start_time,end_time,mission_id,drone_id}=req.body;
@@ -131,4 +137,4 @@ const getUser=async(req,res,next)=>{
     return res.status(200).json({user});
 }
 
-module.exports={CreateSchedule,ViewSchedule,deleteSchedule, editSchedule,verifyToken,getUser};
+module.exports={getAllSchedules, CreateSchedule,ViewSchedule,deleteSchedule, editSchedule,verifyToken,getUser};

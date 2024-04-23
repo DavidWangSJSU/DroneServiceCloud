@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from 'axios';
 import FullCalendar from "@fullcalendar/react";
 import { formatDate } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -15,11 +16,40 @@ import {
 } from "@mui/material";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
+import { parseISO } from 'date-fns';
 
 const Calendar = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [currentEvents, setCurrentEvents] = useState([]);
+    const [schedules, setSchedules] = useState([]);
+
+    useEffect(() => {
+      const fetchSchedules = async () => {
+        try {
+          const response = await axios.get("http://localhost:5001/api/viewschedule", {
+            withCredentials: true,
+          });
+          const formattedEvents = response.data.map((schedule) => ({
+            id: schedule.schedule_id,
+            title: `Schedule ${schedule.schedule_id}`,
+            // start: schedule.start_time,
+            // end: schedule.end_time,
+            start: new Date(schedule.start_time), // Ensure this is a Date object
+            end: new Date(schedule.end_time),
+            duration: schedule.duration,
+            mission_id: schedule.mission_id,
+            drone_id: schedule.drone_id
+          }));
+          setCurrentEvents(formattedEvents);
+          setSchedules(response.data);
+        } catch (error) {
+          console.error("Error fetching schedules:", error);
+        }
+      };
+      fetchSchedules();
+    }, []);
+
   
     const handleDateClick = (selected) => {
       const title = prompt("Please enter a new title for your event");
@@ -37,6 +67,8 @@ const Calendar = () => {
       }
     };
     const handleEventClick = (selected) => {
+      const currSchedule = schedules?.find(schedule => schedule?.schedule_id === selected.event.id);
+      window.alert(JSON.stringify(currSchedule));
         if (
           window.confirm(
             `Are you sure you want to delete the event '${selected.event.title}'`
@@ -44,7 +76,7 @@ const Calendar = () => {
         ) {
           selected.event.remove();
         }
-      };
+    };
 
       return (
         <Box m="20px">
@@ -106,21 +138,30 @@ const Calendar = () => {
                 selectable={true}
                 selectMirror={true}
                 dayMaxEvents={true}
+                events={currentEvents}
                 select={handleDateClick}
                 eventClick={handleEventClick}
-                eventsSet={(events) => setCurrentEvents(events)}
-                initialEvents={[
-                  {
-                    id: "12315",
-                    title: "All-day event",
-                    date: "2022-09-14",
-                  },
-                  {
-                    id: "5123",
-                    title: "Timed event",
-                    date: "2022-09-28",
-                  },
-                ]}
+                // eventsSet={(events) => setCurrentEvents(events)}
+                // initialEvents={[
+                //   // {
+                //   //   id: "12315",
+                //   //   title: "All-day event",
+                //   //   date: "2022-09-14",
+                //   // },
+                //   // {
+                //   //   id: "5123",
+                //   //   title: "Timed event",
+                //   //   date: "2022-09-28",
+                //   // },
+                //   ...schedules.map((schedule) => ({
+                //     id: schedule.schedule_id,
+                //     title: `Schedule ${schedule.schedule_id}`,
+                //     start: schedule.start_time,
+                //     end: schedule.end_time,
+                //   })),
+                // ]}
+                //initialEvents={schedules}
+                //eventsSet={(events) => setCurrentEvents(events)}
               />
             </Box>
           </Box>
